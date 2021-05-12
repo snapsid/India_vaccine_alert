@@ -7,6 +7,7 @@ import 'package:flutter_background/flutter_background.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:india_vaccine_alert/input.dart';
+import 'package:locally/locally.dart';
 
 class MyResult extends StatefulWidget {
   @override
@@ -58,6 +59,7 @@ class _MyResultState extends State<MyResult> {
           myToast("Not available", Colors.red);
         } else {
           getTotalCount();
+          myNoti();
         }
       });
       // parseVac();
@@ -158,6 +160,7 @@ class _MyResultState extends State<MyResult> {
     Future.delayed(Duration(seconds: 5), () {
       getVac(pincode, date);
       print('hey');
+
       loopFetch();
       // Do something
     });
@@ -168,8 +171,23 @@ class _MyResultState extends State<MyResult> {
     pincode = MyInput.pincode;
     getVac(pincode, date);
     bgService();
+
     // TODO: implement initState
     super.initState();
+  }
+
+  myNoti() {
+    Locally locally = Locally(
+      context: context,
+      payload: 'test',
+      // pageRoute: MaterialPageRoute(builder: (context) => SecondScreen(title: title.text, message: message.text)),
+      appIcon: 'mipmap/ic_launcher',
+    );
+
+    locally.show(
+        title: 'Pincode: $pincode',
+        message: 'Total Available: $totalAvailableCount',
+        importance: AndroidNotificationImportance.High);
   }
 
   myListView(
@@ -291,7 +309,8 @@ class _MyResultState extends State<MyResult> {
           IconButton(
               icon: Icon(Icons.play_circle_filled_sharp),
               onPressed: () async {
-                await FlutterBackground.enableBackgroundExecution();
+                // await FlutterBackground.enableBackgroundExecution();
+
                 // loopFetch();
               }),
           IconButton(
