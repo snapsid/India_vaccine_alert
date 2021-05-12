@@ -22,6 +22,12 @@ class _MyResultState extends State<MyResult> {
   var totalAvailableCount = 0;
 
   bgService() async {
+    try {
+      await FlutterBackground.enableBackgroundExecution();
+    } catch (e) {
+      print(e);
+    }
+    //
     var androidConfig = FlutterBackgroundAndroidConfig(
       notificationTitle: "Title of the notification",
       notificationText: "Text of the notification",
@@ -57,6 +63,7 @@ class _MyResultState extends State<MyResult> {
         print("llllll $listCount");
         if (listCount == 0) {
           myToast("Not available", Colors.red);
+          myNoti();
         } else {
           getTotalCount();
           myNoti();
@@ -80,7 +87,7 @@ class _MyResultState extends State<MyResult> {
 
     print("tttt $totalAvailableCount");
 
-    myToast("Avaiable: $totalAvailableCount", Colors.teal);
+    // myToast("Avaiable: $totalAvailableCount", Colors.teal);
   }
 
   parseVac(index) {
@@ -170,6 +177,7 @@ class _MyResultState extends State<MyResult> {
   void initState() {
     pincode = MyInput.pincode;
     getVac(pincode, date);
+
     bgService();
 
     // TODO: implement initState
@@ -185,9 +193,9 @@ class _MyResultState extends State<MyResult> {
     );
 
     locally.show(
-        title: 'Pincode: $pincode',
-        message: 'Total Available: $totalAvailableCount',
-        importance: AndroidNotificationImportance.High);
+      title: 'Pincode: $pincode',
+      message: 'Total Available: $totalAvailableCount',
+    );
   }
 
   myListView(
@@ -295,32 +303,63 @@ class _MyResultState extends State<MyResult> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Available vaccines'),
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, 'input', (route) => false);
+              },
+            );
+          },
+        ),
         actions: [
-          IconButton(
-              icon: Icon(Icons.refresh),
-              onPressed: () {
-                getVac(pincode, date);
-              }),
-          IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {
-                loopFetch();
-              }),
-          IconButton(
-              icon: Icon(Icons.play_circle_filled_sharp),
-              onPressed: () async {
-                // await FlutterBackground.enableBackgroundExecution();
-
-                // loopFetch();
-              }),
+          // IconButton(
+          //     icon: Icon(Icons.add),
+          //     onPressed: () {
+          //       loopFetch();
+          //     }),
+          // IconButton(
+          //     icon: Icon(Icons.play_circle_filled_sharp),
+          //     onPressed: () async {
+          //       // await FlutterBackground.enableBackgroundExecution();
+          //
+          //       // loopFetch();
+          //     }),
           IconButton(
               icon: Icon(Icons.stop),
               onPressed: () async {
                 await FlutterBackground.disableBackgroundExecution();
                 // loopFetch();
               }),
+          // IconButton(
+          //     icon: Icon(Icons.notifications_active),
+          //     onPressed: () async {
+          //       loopFetch();
+          //       await FlutterBackground.enableBackgroundExecution();
+          //
+          //       // await FlutterBackground.disableBackgroundExecution();
+          //       // loopFetch();
+          //     }),
+          IconButton(
+              icon: Icon(Icons.refresh),
+              onPressed: () {
+                getVac(pincode, date);
+              }),
         ],
         backgroundColor: Colors.teal,
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.teal,
+        child: IconButton(
+            icon: Icon(Icons.notifications_active),
+            onPressed: () async {
+              loopFetch();
+              await FlutterBackground.enableBackgroundExecution();
+              // await FlutterBackground.disableBackgroundExecution();
+              // loopFetch();
+            }),
       ),
       body: Container(
         child: ListView.builder(

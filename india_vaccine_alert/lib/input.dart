@@ -49,7 +49,9 @@ class _MyInputState extends State<MyInput> {
                 ),
                 onPressed: () {
                   if (MyInput.pincode != "") {
-                    Navigator.pushNamed(context, 'result');
+                    // Navigator.pushNamed(context, 'result');
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, 'result', (route) => false);
                   }
                 },
                 minWidth: 130,
