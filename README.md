@@ -1,6 +1,10 @@
 # India Vaccine Alert
 
-A mobile app to keep track on availabilty of vaccines.
+Want to get covid vaccinated but slots aren't available in ur area? 
+
+Then this app is for you, that keeps track of the availability of vaccine. You just need to enter the pincode and it will notify when vaccine is available in your area. That's how simple it is to get vaccinated now! 
+
+This amazing app is provided in open source. So, helpful contributions are highly appreciated.
 
 ## ScreenShots
 
