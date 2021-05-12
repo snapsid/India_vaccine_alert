@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -131,6 +132,20 @@ class _MyResultState extends State<MyResult> {
         fontSize: 16.0);
   }
 
+  loopFetch() async {
+    // while (1 > 0) {
+    //   getVac(pincode, date);
+    //   print('heyy');
+    //   sleep(Duration(seconds: 5));
+    // }
+    Future.delayed(Duration(seconds: 5), () {
+      getVac(pincode, date);
+      print('hey');
+      loopFetch();
+      // Do something
+    });
+  }
+
   @override
   void initState() {
     pincode = MyInput.pincode;
@@ -249,6 +264,11 @@ class _MyResultState extends State<MyResult> {
               icon: Icon(Icons.refresh),
               onPressed: () {
                 getVac(pincode, date);
+              }),
+          IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () {
+                loopFetch();
               }),
         ],
         backgroundColor: Colors.teal,
