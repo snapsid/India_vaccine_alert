@@ -12,6 +12,7 @@ class MyResult extends StatefulWidget {
 class _MyResultState extends State<MyResult> {
   var pincode = "452001";
   var date = "12-05-21";
+  var body1 = "";
   getVac(pin, date) async {
     var url = Uri.parse(
         'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByPin?pincode=${pincode}&date=${date}');
@@ -22,13 +23,21 @@ class _MyResultState extends State<MyResult> {
       print(code);
       var body = response.body;
       print(body);
-      parseVac(body);
+      body1 = body;
+      var decode = jsonDecode(body);
+      var session = [];
+      session = decode['sessions'];
+      setState(() {
+        listCount = session.length;
+      });
+      // parseVac();
     } catch (e) {
       print(e);
     }
   }
 
-  parseVac(body) {
+  parseVac(index) {
+    var body = body1;
     var session = [];
     var result = body;
     var decode = jsonDecode(result);
@@ -37,26 +46,44 @@ class _MyResultState extends State<MyResult> {
     var sessionCount = session.length;
     print(sessionCount);
 
-    setState(() {
-      listCount = sessionCount;
-    });
+    // setState(() {
+    //   listCount = sessionCount;
+    // });
 
     if (sessionCount > 0) {
-      var centerId = session[0]['center_id'];
-      var nameCenter = session[0]['name'];
-      var address = session[0]['address'];
-      var state = session[0]['state_name'];
-      var district = session[0]['district_name'];
-      var block = session[0]['block_name'];
-      var minAge = session[0]['min_age_limit'];
-      var availableCapacity = session[0]['available_capacity'];
-      var vaccineType = session[0]['vaccine'];
+      var centerId1 = session[index]['center_id'].toString();
+      var nameCenter1 = session[index]['name'];
+      var address1 = session[index]['address'];
+      var state1 = session[index]['state_name'];
+      var district1 = session[index]['district_name'];
+      var block1 = session[index]['block_name'];
+      var minAge1 = session[index]['min_age_limit'];
+      var availableCapacity1 = session[index]['available_capacity'];
+      var vaccineType1 = session[index]['vaccine'];
+      var pincode1 = session[index]['pincode'];
 
-      setState(() {
-        vacType = vaccineType;
-      });
-      print(minAge);
-      print(vaccineType);
+      vacType = vaccineType1;
+      name = nameCenter1;
+      minAge = minAge1;
+      address = address1;
+      state = state1;
+      district = district1;
+      pinC = pincode;
+      id = centerId1;
+
+      available = availableCapacity1.floor();
+      print(available);
+      // setState(() {
+      //   vacType = vaccineType1;
+      //   name = nameCenter1;
+      //   minAge = minAge1;
+      //   available = availableCapacity1;
+      //   print(available);
+      // });
+      return myListView(
+          vacType, available, minAge, name, address, state, district, pinC, id);
+    } else {
+      return Container();
     }
   }
 
@@ -66,48 +93,63 @@ class _MyResultState extends State<MyResult> {
     super.initState();
   }
 
-  myListView(vacType) {
+  myListView(
+      vacType, available, minAge, name, address, state, district, pinC, id) {
     return Card(
       elevation: 5,
       child: Container(
           margin: EdgeInsets.only(left: 30, top: 20),
-          height: 150,
+          height: 180,
           child: Stack(
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    '$vacType',
-                    style: TextStyle(
-                        color: Colors.teal,
-                        fontSize: 21,
-                        fontWeight: FontWeight.w600),
-                  ),
-                  Text(
-                    'Name:',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
-                  ),
-                  Text(
-                    'Address:',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
-                  ),
-                  Text(
-                    'City:',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
-                  ),
-                  Text(
-                    'State:',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
-                  ),
-                ],
+              Container(
+                margin: EdgeInsets.only(right: 100),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      '$vacType',
+                      style: TextStyle(
+                          color: Colors.teal,
+                          fontSize: 21,
+                          fontWeight: FontWeight.w600),
+                    ),
+                    Text(
+                      'Name: $name',
+                      style:
+                          TextStyle(fontSize: 17, fontWeight: FontWeight.w400),
+                    ),
+                    Text(
+                      'Address: $address',
+                      style:
+                          TextStyle(fontSize: 17, fontWeight: FontWeight.w400),
+                    ),
+                    Text(
+                      'District: $district $pinC',
+                      style:
+                          TextStyle(fontSize: 17, fontWeight: FontWeight.w400),
+                    ),
+                    Text(
+                      'State: $state',
+                      style:
+                          TextStyle(fontSize: 17, fontWeight: FontWeight.w400),
+                    ),
+                  ],
+                ),
               ),
               Container(
                   margin: EdgeInsets.only(bottom: 10, right: 20),
                   alignment: Alignment.bottomRight,
                   child: Text(
-                    'Min Age: ',
+                    'Min Age: $minAge',
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                  )),
+              Container(
+                  margin: EdgeInsets.only(bottom: 10, right: 20),
+                  alignment: Alignment.topRight,
+                  child: Text(
+                    'ID: $id',
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
                   )),
               Container(
@@ -127,7 +169,7 @@ class _MyResultState extends State<MyResult> {
                         height: 7,
                       ),
                       Text(
-                        '5',
+                        '$available',
                         style: TextStyle(
                             color: Colors.red,
                             fontSize: 28,
@@ -142,6 +184,14 @@ class _MyResultState extends State<MyResult> {
 
   var listCount = 0;
   var vacType = "";
+  var name = "";
+  var minAge = 0;
+  var available = 0;
+  var address = "";
+  var state = "";
+  var district = "";
+  var pinC = "";
+  var id = "";
 
   @override
   Widget build(BuildContext context) {
@@ -165,7 +215,11 @@ class _MyResultState extends State<MyResult> {
           padding: EdgeInsets.only(bottom: 20),
           itemCount: listCount,
           itemBuilder: (BuildContext context, int index) {
-            return myListView(vacType);
+            if (listCount == 0) {
+              return Container();
+            } else {
+              return parseVac(index);
+            }
           },
         ),
       ),
