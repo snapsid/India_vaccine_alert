@@ -167,7 +167,7 @@ class _MyResultState extends State<MyResult> {
                   alignment: Alignment.bottomRight,
                   child: Text(
                     'Min Age: $minAge',
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                   )),
               Container(
                   margin: EdgeInsets.only(bottom: 10, right: 20),
