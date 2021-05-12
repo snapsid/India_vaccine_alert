@@ -12,7 +12,7 @@ class _MyInputState extends State<MyInput> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.teal,
-        title: Text('Enter details'),
+        title: Text('Vaccine Alert'),
       ),
       body: Container(
         alignment: Alignment.center,

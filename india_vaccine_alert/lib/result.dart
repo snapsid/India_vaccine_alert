@@ -15,7 +15,11 @@ class _MyResultState extends State<MyResult> {
   var pincode = "";
   var date = "12-05-21";
   var body1 = "";
+
+  var totalAvailableCount = 0;
+
   getVac(pin, date) async {
+    totalAvailableCount = 0;
     var url = Uri.parse(
         'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByPin?pincode=${pincode}&date=${date}');
 
@@ -40,6 +44,19 @@ class _MyResultState extends State<MyResult> {
     } catch (e) {
       print(e);
     }
+  }
+
+  getTotalCount() {
+    var session = [];
+    var decode = jsonDecode(body1);
+    session = decode['sessions'];
+    print("lc $listCount");
+    for (int i = 0; i < listCount; i++) {
+      var availableCapacity1 = session[i]['available_capacity'];
+      totalAvailableCount = totalAvailableCount + availableCapacity1.floor();
+    }
+
+    print("tttt $totalAvailableCount");
   }
 
   parseVac(index) {
@@ -78,6 +95,7 @@ class _MyResultState extends State<MyResult> {
       id = centerId1;
 
       available = availableCapacity1.floor();
+
       print(available);
       // setState(() {
       //   vacType = vaccineType1;
@@ -227,6 +245,11 @@ class _MyResultState extends State<MyResult> {
               icon: Icon(Icons.refresh),
               onPressed: () {
                 getVac(pincode, date);
+              }),
+          IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () {
+                getTotalCount();
               })
         ],
         backgroundColor: Colors.teal,
