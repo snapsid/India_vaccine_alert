@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MyInput extends StatefulWidget {
+  static String pincode = "";
   @override
   _MyInputState createState() => _MyInputState();
 }
@@ -23,7 +24,9 @@ class _MyInputState extends State<MyInput> {
               width: 300,
               child: TextField(
                 keyboardType: TextInputType.number,
-                onChanged: (value) {},
+                onChanged: (value) {
+                  MyInput.pincode = value;
+                },
                 decoration: InputDecoration(
                     filled: true,
                     hintText: "Enter pincode",
@@ -44,7 +47,11 @@ class _MyInputState extends State<MyInput> {
                   'Search',
                   style: TextStyle(color: Colors.white),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  if (MyInput.pincode != "") {
+                    Navigator.pushNamed(context, 'result');
+                  }
+                },
                 minWidth: 130,
                 height: 40,
               ),

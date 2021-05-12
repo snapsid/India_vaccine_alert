@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:india_vaccine_alert/input.dart';
 
 class MyResult extends StatefulWidget {
   @override
@@ -10,7 +12,7 @@ class MyResult extends StatefulWidget {
 }
 
 class _MyResultState extends State<MyResult> {
-  var pincode = "452001";
+  var pincode = "";
   var date = "12-05-21";
   var body1 = "";
   getVac(pin, date) async {
@@ -29,6 +31,10 @@ class _MyResultState extends State<MyResult> {
       session = decode['sessions'];
       setState(() {
         listCount = session.length;
+        print("llllll $listCount");
+        if (listCount == 0) {
+          myToast("Not available", Colors.red);
+        }
       });
       // parseVac();
     } catch (e) {
@@ -83,12 +89,30 @@ class _MyResultState extends State<MyResult> {
       return myListView(
           vacType, available, minAge, name, address, state, district, pinC, id);
     } else {
-      return Container();
+      print("list count 0");
+      return Container(
+        alignment: Alignment.center,
+        child: Text('Not Available...'),
+      );
     }
+  }
+
+  myToast(mymsg, color) {
+    Fluttertoast.showToast(
+        msg: mymsg,
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 2,
+        backgroundColor: color,
+        textColor: Colors.white,
+        webPosition: "center",
+        fontSize: 16.0);
   }
 
   @override
   void initState() {
+    pincode = MyInput.pincode;
+    getVac(pincode, date);
     // TODO: implement initState
     super.initState();
   }
@@ -98,7 +122,7 @@ class _MyResultState extends State<MyResult> {
     return Card(
       elevation: 5,
       child: Container(
-          margin: EdgeInsets.only(left: 30, top: 20),
+          margin: EdgeInsets.only(left: 30, top: 20, bottom: 20),
           height: 180,
           child: Stack(
             children: [
@@ -216,8 +240,12 @@ class _MyResultState extends State<MyResult> {
           itemCount: listCount,
           itemBuilder: (BuildContext context, int index) {
             if (listCount == 0) {
-              return Container();
+              return Container(
+                alignment: Alignment.center,
+                child: Text('Not Available...'),
+              );
             } else {
+              print("list count 0");
               return parseVac(index);
             }
           },

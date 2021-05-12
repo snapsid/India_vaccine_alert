@@ -5,7 +5,7 @@ import 'package:india_vaccine_alert/result.dart';
 void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    initialRoute: 'result',
+    initialRoute: 'input',
     routes: {
       'input': (context) => MyInput(),
       'result': (context) => MyResult(),
