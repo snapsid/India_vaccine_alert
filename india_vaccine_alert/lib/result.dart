@@ -38,6 +38,8 @@ class _MyResultState extends State<MyResult> {
         print("llllll $listCount");
         if (listCount == 0) {
           myToast("Not available", Colors.red);
+        } else {
+          getTotalCount();
         }
       });
       // parseVac();
@@ -57,6 +59,8 @@ class _MyResultState extends State<MyResult> {
     }
 
     print("tttt $totalAvailableCount");
+
+    myToast("Avaiable: $totalAvailableCount", Colors.teal);
   }
 
   parseVac(index) {
@@ -246,11 +250,6 @@ class _MyResultState extends State<MyResult> {
               onPressed: () {
                 getVac(pincode, date);
               }),
-          IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {
-                getTotalCount();
-              })
         ],
         backgroundColor: Colors.teal,
       ),
