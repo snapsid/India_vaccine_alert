@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_background/flutter_background.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:india_vaccine_alert/input.dart';
@@ -18,6 +19,22 @@ class _MyResultState extends State<MyResult> {
   var body1 = "";
 
   var totalAvailableCount = 0;
+
+  bgService() async {
+    var androidConfig = FlutterBackgroundAndroidConfig(
+      notificationTitle: "Title of the notification",
+      notificationText: "Text of the notification",
+
+      notificationImportance: AndroidNotificationImportance.Default,
+      notificationIcon: AndroidResource(
+          name: 'background_icon',
+          defType: 'drawable'), // Default is ic_launcher from folder mipmap
+    );
+    bool success =
+        await FlutterBackground.initialize(androidConfig: androidConfig);
+
+    bool hasPermissions = await FlutterBackground.hasPermissions;
+  }
 
   getVac(pin, date) async {
     totalAvailableCount = 0;
@@ -150,6 +167,7 @@ class _MyResultState extends State<MyResult> {
   void initState() {
     pincode = MyInput.pincode;
     getVac(pincode, date);
+    bgService();
     // TODO: implement initState
     super.initState();
   }
@@ -269,6 +287,18 @@ class _MyResultState extends State<MyResult> {
               icon: Icon(Icons.add),
               onPressed: () {
                 loopFetch();
+              }),
+          IconButton(
+              icon: Icon(Icons.play_circle_filled_sharp),
+              onPressed: () async {
+                await FlutterBackground.enableBackgroundExecution();
+                // loopFetch();
+              }),
+          IconButton(
+              icon: Icon(Icons.stop),
+              onPressed: () async {
+                await FlutterBackground.disableBackgroundExecution();
+                // loopFetch();
               }),
         ],
         backgroundColor: Colors.teal,
