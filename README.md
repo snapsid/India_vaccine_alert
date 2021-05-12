@@ -9,7 +9,7 @@ A mobile app to keep track on availabilty of vaccines.
 |                                                           |                                                           |
 | --------------------------------------------------------- | --------------------------------------------------------- |
 | <img src="https://raw.githubusercontent.com/snapsid/India_vaccine_alert/master/img/s6.jpeg?token=AND6B5RWONH23T7QVVGTP5DAUUSSK"  width="300"/> | <img src="https://raw.githubusercontent.com/snapsid/India_vaccine_alert/master/img/s3.jpeg?token=AND6B5WZVURX4OVTQ5LTIDDAUUSOM" width="300"/>  |
-| <img src="https://raw.githubusercontent.com/snapsid/India_vaccine_alert/master/img/s1.jpeg?token=AND6B5XFKOLCERCZYXJMSX3AUUSCS"  width="300"/> | <img src="https://raw.githubusercontent.com/snapsid/India_vaccine_alert/master/img/s2.jpeg?token=AND6B5QWD547BZXLI22F54TAUUSFI" width="300"/>  |
+| <img src="https://raw.githubusercontent.com/snapsid/India_vaccine_alert/master/img/s1.jpeg?token=AND6B5XFKOLCERCZYXJMSX3AUUSCS"  width="300"/> | <img src="https://raw.githubusercontent.com/snapsid/India_vaccine_alert/master/img/s5.jpeg?token=AND6B5XUSZL6PUFZYTYSTNTAUUTEY" width="300"/>  |
 | <img src="https://raw.githubusercontent.com/snapsid/India_vaccine_alert/master/img/s7.jpeg?token=AND6B5TPOEKGLGXI23HWLF3AUUS5S"  width="300"/> | <img src="https://raw.githubusercontent.com/snapsid/India_vaccine_alert/master/img/s2.jpeg?token=AND6B5QWD547BZXLI22F54TAUUSFI" width="300"/>  |
 
 ---
